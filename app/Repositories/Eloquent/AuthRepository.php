@@ -31,8 +31,6 @@ class AuthRepository implements AuthRepositoryInterface
       return response()->json(['message' => 'Unauthorized'], 401);
     }
 
-    $user->tokens()->delete();
-
     $tokenResult = $user->createToken('api-books');
     $user['token_type'] = 'Bearer';
     $user['token'] = $tokenResult->accessToken;
