@@ -29,7 +29,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN useradd -G www-data,root -u $uid -d /home/$user $user
 RUN mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
-RUN pecl install redis && docker-php-ext-enable redis
 
 # Set working directory
 WORKDIR /var/www
