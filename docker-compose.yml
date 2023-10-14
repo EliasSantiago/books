@@ -22,6 +22,7 @@ services:
             MYSQL_USER: ${DB_USERNAME}
             SERVICE_TAGS: dev
             SERVICE_NAME: mysql
+            allowPublicKeyRetrieval: 'true'
         networks:
         - laravel
 
