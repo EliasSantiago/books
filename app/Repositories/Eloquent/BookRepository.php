@@ -16,7 +16,7 @@ class BookRepository implements BookRepositoryInterface
 
   public function index(): object
   {
-    return $this->model->paginate(20);
+    return $this->model->with('indices')->paginate(20);
   }
 
   public function store(array $data): object

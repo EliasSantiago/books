@@ -23,12 +23,16 @@ class StoreBook extends FormRequest
     {
         return [
             'titulo' => 'required|string|min:3|max:255',
-            'indices' => 'array',
+            'indices' => 'required|array',
             'indices.*.titulo' => 'required|string|min:3|max:255',
             'indices.*.pagina' => 'required|integer',
             'indices.*.subindices' => 'array',
             'indices.*.subindices.*.titulo' => 'required|string|min:3|max:255',
             'indices.*.subindices.*.pagina' => 'required|integer',
+            'indices.*.subindices.*.subindices' => 'array',
+            'indices.*.subindices.*.subindices.*.titulo' => 'required|string|min:3|max:255',
+            'indices.*.subindices.*.subindices.*.pagina' => 'required|integer',
+            'indices.*.subindices.*.subindices.*.subindices' => 'array',
         ];
     }
 

@@ -41,7 +41,6 @@ class BookController extends Controller
     {
         try {
             $validated = $request->validated();
-
             $book = $this->service->store($validated);
 
             return $book;
