@@ -95,4 +95,71 @@ class BookControllerTest extends TestCase
 
     $response->assertStatus(422);
   }
+
+  public function test_index_method_with_search_parameters()
+  {
+    $user = \App\Models\User::factory()->create();
+    $token = $user->createToken('TestToken')->accessToken;
+
+    $this->actingAs($user);
+
+    $bookData = [
+      'titulo' => 'Clean Architecture',
+      'indices' => [
+        [
+          'titulo' => 'Alfa',
+          'pagina' => 2,
+          'subindices' => [
+            [
+              'titulo' => 'Beta',
+              'pagina' => 3,
+              'subindices' => [
+                [
+                  'titulo' => 'Gama',
+                  'pagina' => 3,
+                  'subindices' => [],
+                ],
+              ],
+            ],
+          ],
+        ],
+      ],
+    ];
+
+    $response = $this->withHeaders([
+      'Accept' => 'application/json',
+      'Authorization' => 'Bearer ' . $token,
+    ])->json('POST', '/api/v1/books', $bookData);
+
+    $response->assertStatus(201);
+
+    $titulo = 'Clean Architecture';
+    $titulo_do_indice = 'Beta';
+
+    $response = $this->withHeaders([
+      'Accept' => 'application/json',
+      'Authorization' => 'Bearer ' . $token,
+    ])->json('GET', "/api/v1/books?titulo={$titulo}&titulo_do_indice={$titulo_do_indice}");
+
+    $response->assertStatus(200);
+
+    $response->assertJsonFragment(['titulo' => $titulo]);
+
+    $response->assertJsonFragment(['titulo' => $titulo_do_indice]);
+  }
+
+  public function test_index_method_without_search_parameters()
+  {
+    $user = \App\Models\User::factory()->create();
+    $token = $user->createToken('TestToken')->accessToken;
+
+    $this->actingAs($user);
+
+    $response = $this->withHeaders([
+      'Accept' => 'application/json',
+      'Authorization' => 'Bearer ' . $token,
+    ])->json('GET', '/api/v1/books');
+
+    $response->assertStatus(200);
+  }
 }
