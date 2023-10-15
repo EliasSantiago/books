@@ -16,14 +16,9 @@ class BookService
     $this->repository = $repository;
   }
 
-  public function index(): object
+  public function index(string $titulo = '', string $titulo_do_indice = '', int $per_page): object
   {
-    $books = $this->repository->index();
-
-    if ($books->isEmpty()) {
-      throw new BookNotFoundException('Nenhum livro encontrado.');
-    }
-
+    $books = $this->repository->index($titulo, $titulo_do_indice, $per_page);
     return $books;
   }
 

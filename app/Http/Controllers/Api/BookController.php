@@ -22,10 +22,14 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $books = $this->service->index();
+            $books = $this->service->index(
+                titulo: $request->titulo ?? "",
+                titulo_do_indice: $request->titulo_do_indice ?? "",
+                per_page: $request->per_page ?? 20
+            );
             return $books;
         } catch (BookNotFoundException $e) {
             return $e->getMessage() ?? 500;

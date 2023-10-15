@@ -14,9 +14,22 @@ class BookRepository implements BookRepositoryInterface
     $this->model = $model;
   }
 
-  public function index(): object
+  public function index(string $titulo = '', string $titulo_do_indice = '', int $per_page): object
   {
-    return $this->model->with('indices')->paginate(20);
+    $books = $this->model
+      ->where(function ($query) use ($titulo, $titulo_do_indice) {
+        if ($titulo) {
+          $query->where('titulo', 'like', "%{$titulo}%");
+        }
+        if ($titulo_do_indice) {
+          $query->orWhereHas('indices', function ($query) use ($titulo_do_indice) {
+            $query->where('titulo', 'like', "%{$titulo_do_indice}%");
+          });
+        }
+      })
+      ->with('indices')
+      ->paginate($per_page);
+    return $books;
   }
 
   public function store(array $data): object
