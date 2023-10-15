@@ -27,7 +27,12 @@ class BookRepository implements BookRepositoryInterface
           });
         }
       })
-      ->with('indices')
+      ->with([
+        'user' => function ($query) {
+          $query->select('id', 'name');
+        },
+        'indices',
+      ])
       ->paginate($per_page);
     return $books;
   }
