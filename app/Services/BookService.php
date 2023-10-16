@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Exceptions\BookNotFoundException;
+use App\Jobs\ImportIndices;
+use App\Models\Book;
 use App\Models\Indice;
 use App\Repositories\BookRepositoryInterface;
 use Illuminate\Support\Facades\DB;
@@ -55,5 +57,10 @@ class BookService
         $this->createIndices($indexData['subindices'], $book, $index);
       }
     }
+  }
+
+  public function importXml($xmlData, $bookId)
+  {
+    dispatch(new ImportIndices($xmlData, $bookId));
   }
 }

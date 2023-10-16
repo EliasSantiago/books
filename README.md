@@ -8,6 +8,9 @@ API Books.
 - Requires PHP >= 8.1
 - Mysql 8
 
+## Postman
+- Collection and environment exported in /storage/postman
+
 ## How to run the api?
 
 **Step 1: Clone the project, run the following commands:**

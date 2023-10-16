@@ -20,6 +20,7 @@ Route::prefix('v1')->group(function () {
         Route::controller(BookController::class)->group(function () {
             Route::post('/books', 'store');
             Route::get('/books', 'index');
+            Route::post('/books/{bookId}/importar-indices-xml', 'importIndex');
         });
     });
 });

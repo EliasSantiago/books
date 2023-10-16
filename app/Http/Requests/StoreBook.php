@@ -23,7 +23,7 @@ class StoreBook extends FormRequest
     {
         return [
             'titulo' => 'required|string|min:3|max:255',
-            'indices' => 'required|array',
+            'indices' => 'array',
             'indices.*.titulo' => 'required|string|min:3|max:255',
             'indices.*.pagina' => 'required|integer',
             'indices.*.subindices' => 'array',

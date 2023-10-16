@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Exceptions\BookNotFoundException;
+use App\Exceptions\ItemNotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBook;
 use App\Models\Book;
@@ -51,5 +52,18 @@ class BookController extends Controller
         } catch (\Exception $e) {
             return $e->getCode() ?? 500;
         }
+    }
+
+    public function importIndex(Request $request, $bookId)
+    {
+        $xmlDataString = $request->getContent();
+        $xmlData = simplexml_load_string($xmlDataString);
+
+        if (!$xmlData->item->count()) {
+            throw new ItemNotFoundException();
+        }
+
+        $this->service->importXml($xmlDataString, $bookId);
+        return response()->json(['message' => 'Importação iniciada']);
     }
 }
